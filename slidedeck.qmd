@@ -349,11 +349,16 @@ Some progress has been made --- more happening all the time
 :::: {.columns}
 
 ::: {.column width=50%}
-Slide deck on GitHub 
+
+#### Slide deck
+
+{{< qrcode https://github.com/gavinsimpson/tibs-aarhus-2026/slidedeck.html width=300 height=300 >}}
+
 :::
 
-
 ::: {.column width=50%}
+
+#### GitHub repo
 
 {{< qrcode https://github.com/gavinsimpson/tibs-aarhus-2026 width=300 height=300 >}}
 
