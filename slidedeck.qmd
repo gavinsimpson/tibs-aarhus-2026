@@ -1,0 +1,443 @@
+---
+title: "From Messy to Meaningful: Integrating Big Data in Palaeoecology"
+format:
+  aarhus-revealjs:
+    embed-resources: true
+    code-line-numbers: false
+html-math-method:
+  method: mathjax
+  url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+author:
+  - name: Gavin Simpson
+    orcid: 0000-0002-9084-8413
+    email: gavin@anivet.au.dk
+    affiliations: Aarhus University
+date: last-modified
+title-slide-attributes:
+  data-background-color: "#003d73"
+presenter:
+  name: Gavin Simpson
+  institute: Department of Animal & Veterinary Sciences
+knitr:
+  opts_chunk: 
+    echo: false
+    message: false
+    fig.align: center
+    fig.height: 5
+    fig.width: 9
+    dpi: 300
+    collapse: true
+    cache: true
+highlight-style: github-dark
+---
+
+# What are our data?
+
+## What does AI think?
+
+![](assets/20250701_2218_Vibrant Lake Ecosystem_simple_compose_01jz3t49e7e1crerb3jx24kmd1.png){fig-align="center"}
+
+[Source: Sora]{.source}
+
+## ...but can we trust AI
+
+![](assets/20250701_2226_Palaeoecologist at Work_simple_compose_01jz3tm12jesv90jrqcjaj82ea.png){fig-align="center"}
+
+[Source: Sora]{.source}
+
+## What are our data?
+
+Palaeo data come in many forms
+
+* counts
+* %
+* biomass
+* concentrations
+* presence / absence (?)
+* presence only?
+* whatever the heck metagenomics / metabarcoding produces
+
+## Is this a problem?
+
+Probably not
+
+* in a single site study
+* in a curated study of selected sites
+
+. . .
+
+[Becomes a problem when we start to collate data into a large database]{.highlight}
+
+## Why is this a problem
+
+Even within a single proxy we have inconsistent data
+
+* raw data may not be available for some locations, only %
+* everyone counts things differently
+* everyone uses their own taxonomy
+* ...
+
+. . .
+
+Where we've sampled almost surely is not [random]{.highlight} --- [convenience sample]{.highlight}
+
+Almost surely [irregularly spaced in time]{.highlight}
+
+## So much for old news...
+
+No one in this room needs to be told any of this
+
+##
+
+![](assets/20250702_1047_TED Talk Appreciation_simple_compose_01jz552r4he0d8qzt8dk1m6w4k.png){fig-align="center"}
+
+[Source: Sora]{.source}
+
+# What do we want to do with them?
+
+::: {.notes}
+
+What I want to talk about is how do you bring these data together to answer our scientific questions
+
+:::
+
+## What do we want to do?
+
+Themes from a brief search of literature (AKA things I've been involved with)
+
+* conservation
+* diversity
+* resilience / sensitivity to change
+* ecological interactions
+* co-occurrence among proxies
+* aquatic -- terrestrial linkages
+
+. . .
+
+[Long term changes]{.highlight} in spatial organisation and distribution of species and ecosystems
+
+# How might we do it?
+
+## How might we do it?
+
+Traditional methods used in palaeo are unlikely to help with analyses that compare across more than two taxonomic groups or data of different types
+
+* coinertia / cocorrespondence analysis --- pairs of data
+
+What do we do if we have different resolution data within a proxy?
+
+Or different data representations?
+
+Or different proxies at different sites / samples
+
+. . .
+
+[Can we use all the data?]{.highlight}
+
+## Maslow's hammer
+
+![](assets/20250702_1358_Red Toolbox, Only Hammers_simple_compose_01jz5fzt27ev69aca2pf5y1rae.png){fig-align="center"}
+
+[Source: Sora]{.source}
+
+::: {.notes}
+
+If the only tool in your toolbox is a hammer, every problem looks like a nail, and there's a tendency among palaeoecologists to use the methods that a traditional and familiar
+
+:::
+
+##
+
+![](assets/1746453418316.jpeg)
+
+[Source: [Jeff Steinke](https://www.jeffsteinke.com/2017/01/nobody-ever-got-fired-buying-ibm-special-inauguration-edition/)]{.source}
+
+## Newer methods
+
+Lots of developments in the statistical ecology and omics worlds we can take advantage of
+
+* integrated SDMs
+
+* joint species distribution models
+
+* model-based ordination
+
+* copula models (marginal models for multivariate responses)
+
+* graphical models & networks
+
+* ...
+
+. . .
+
+[Not just for the sake of being novel]{.highlight}
+
+. . .
+
+Newer methods enable estimation of new quantities --- new/better answers to questions
+
+## Integrated SDMs
+
+Integrated species distribution models
+
+General way to combine --- *integrate* --- disparate data
+
+a) species' distributions are aggregated spatial locations of all individuals of the same species across a geographical domain
+
+b) the distribution can be described by a spatial point process, where local intensity (density) of individuals varies
+
+c) SDMs are a direct or indirect model of this underlying point process
+
+d) data integration requires linking each data source to the common underlying point process while accounting for differences among data types
+
+## What is a point process?
+
+:::: {.columns}
+
+::: {.column width=70%}
+
+A spatial point process describes the distribution of event locations across some spatial domain
+
+Random process generating points, described by the local intensity $\lambda_{s}$
+
+$\lambda_{s}$ --- expected density of points at spatial location $s$
+
+If points are random, independent and follow a Poisson distribution with mean $\lambda_{s}$, homogeneous Poisson process ($\lambda_{s} = \lambda \; \forall \; s$)
+
+If $\lambda_{s}$ varies across $s$, we have an *inhomogeneous* Poisson process
+
+Other distributions are available
+
+[These work in time as well]{.highlight}
+
+:::
+
+::: {.column width=30%}
+
+![](assets/simulated-point-processes-miller-et-al-2019-fig-1.png)
+
+[Miller *et al* (2019). Methods Ecol. Evol. [10.1111/2041-210X.13110](https://doi.org/10.1111/2041-210X.13110)]{.source}
+
+:::
+
+::::
+
+## Joint likelihood
+
+:::: {.columns}
+
+::: {.column width=50%}
+
+The different data sets have their own "model" and the likelihoods are combined during fitting
+
+Allows mixing of different types of data
+
+* *pointedSDMs* 📦
+
+Similar idea to combine likelihoods from different types of data
+
+* Jim Clarke's Generalized joint attribute model (GJAM) in *gjam* 📦
+* `gfam()` family in Simon Wood's *mgcv* 📦 
+* Dover, Popovic, & Warton (2023, MEE) *scampr* 📦
+
+:::
+
+::: {.column width=50%}
+
+![](assets/joint-likelihood-miller-et-al-2019-fig-2.png)
+
+[Miller *et al* (2019). Methods Ecol. Evol. [10.1111/2041-210X.13110](https://doi.org/10.1111/2041-210X.13110)]{.source}
+
+:::
+
+::::
+
+## JSDMs
+
+Instead of modelling one species at a time and stacking the models, Joint Species Distribution Models estimate all species at once
+
+Ideally we'd combine integrated SDMs with JSDMs but as yet, I'm not aware of much work yet (but see [Gelfand & Schliep, 2025](https://doi.org/10.1146/annurev-statistics-042424-052920))
+
+JSDMs can be used to fit model-based ordinations --- might have to move away from traditional ordination methods to handle features of our data properly
+
+* gllvm
+* ecoCopula
+* boral
+* [mvgam]{.highlight}
+
+. . .
+
+We don't have to repeat everything that our non-palaeo ecologist colleagues have worked through already --- [jump to the head of the line]{.highlight}
+
+::: {.notes}
+
+Also, these newer methods can answer different ecological questions where traditional methods might not
+
+:::
+
+## Change of support
+
+What if we don't have the same proxies measured at the same set of sites? --- [spatial misalignment]{.highlight}
+
+What if proxies represent different amounts of space (time)?
+
+This is covered under the problem of [change of support]{.highlight} and the concept of [data fusion]{.highlight}
+
+## Computation
+
+For larger data sets, computation using these newer methods becomes [difficult]{.highlight}
+
+- more parameters vs. simplifications & approximations
+
+- newer methods & algorithms, GPUs, etc are helping with this
+
+Most methods demonstrated with 10s of taxa --- Galore (Pound & O'Keefe; 2025 *Palynology*) pollen & spore data set has >1000 *genera*
+
+## Description
+
+Even describing larger data sets presents challenges
+
+Want lower dimensional view of the data --- [topic models]{.highlight}
+
+* Summarise each sample as being made up of proportions of $A \ll m$ "associations" (don't hate on me!)
+
+* "associations" are learned from the data --- proportions of each taxon in each "association"
+
+* each individual in a sample is modelled as a draw from the distribution of "associations" and then a draw of a taxon from that "association"
+
+* display (model?) data using these $A \ll m$ "associations"
+
+::: {.notes}
+
+:::
+
+## Latent Dirichlet Allocation
+
+![](assets/plot-dirichlet-trends-1.svg)
+
+## 
+
+![](assets/Wizard Of Oz Quote GIF by Top 100 Movie Quotes of All Time.gif){fig-align="center"}
+
+[Source: Giphy]{.source}
+
+::: {.notes}
+
+I fully appreciate that much if not all of this will be gobbledygook to most of you
+
+Work with statistical ecologists --- they've solved many of these issues and are actively working on those they haven't
+
+Ignoring the problems is not an option if we want to do sound, reproducible science
+
+:::
+
+## Summary
+
+Working with large, disparate, heterogeneous data sets is hard
+
+Using newer statistical approaches is essential to handle this heterogeneity
+
+Some progress has been made --- more happening all the time
+
+- Data integration
+- Data fusion
+- Joint models
+- Dimension reduction (e.g. topic models)
+
+## Thank you
+
+:::: {.columns}
+
+::: {.column width=50%}
+Slide deck on GitHub 
+:::
+
+
+::: {.column width=50%}
+
+{{< qrcode https://github.com/gavinsimpson/tibs-aarhus-2026 width=300 height=300 >}}
+
+:::
+
+::::
+
+# Extra
+
+## Diversity
+
+Diversity metrics are very non-Gaussian
+
+Any modelling of ["diversity"]{.highlight} needs to handle the sediment accumulation problem
+
+Time averaging different amounts of time per sample leads to
+
+* heteroscedasticity
+* different effort --- biases species richness etc
+
+. . . 
+
+Same problem affects any modelling of any palaeo data, save for annually laminated records...
+
+Effort problems plague "microbiome"-type data
+
+## Diversity
+
+Rare or data-deficient species?
+
+Large training sets --- throw out rare species, singletons etc
+
+eDNA --- "filtering" throws away a lot of data (& please don't rarefy to counts)
+
+Hierarchical models involving random "effects" allow us to [borrow strength]{.highlight} from more data-rich taxa
+
+> Sharma *et al* (in press). No species left behind: borrowing strength to 
+> map data-deficient species. *Trends Ecol. Evol.* 
+> [10.1016/j.tree.2025.04.010](https://doi.org/10.1016/j.tree.2025.04.010)
+
+## Omics
+
+Over in the Omics cinematic universe, those folks are doing their own thing integrating disparate kinds of data
+
+Popular techniques are focused around extensions to PLS
+
+Multiple different types of omics analysis on the [same samples]{.highlight}
+
+## What if we can't?
+
+If we can't / don't want to use these newer methods, what can we do with dissimilarities?
+
+Fused dissimilarities
+
+* compute dissimilarity among samples for a single proxy / type of data separately
+* compute the fused dissimilarity
+$$d_{\text{fused}_{jk}} = w d_{x_{jk}}  + (1 - w)d_{y_{jk}}$$
+* extends to $\mathcal{N}$ different data sets 
+$$d_{\text{fused}_{jk}} = \sum_{i = 1}^{\mathcal{N}} w_i d_{i_{jk}}, \;\; \text{where} \sum_{i=1}^{\mathcal{N}} w_i = 1$$
+
+Then analyse using NMDS or db-RDA, etc.
+
+# The future?
+
+## Extirpation
+
+Very hard to say taxon *x* extirpated from this lake at this time
+
+Most palaeo data is presence only
+
+Possible with associated *marks* --- abundance or biomass *conditional upon* the taxon being found
+
+We don't know (statistical) things about the taxa we don't observe
+
+Hard to put a probability on (e.g.) extirpation with this data
+
+## Repeat counts
+
+But ecologists have been doing this kind of work for decades --- [occupancy modelling]{.highlight}
+
+Most methods require repeated sampling
+
+What would that look like for palaeo?
+
+. . .
+
+**Could we count same number of things but over $n \geq 2$ different "samples"?**
