@@ -6,6 +6,6 @@
 
 Presentation at TIBS 2026 in Aarhus, Denmark
 
-* [Rendered slides](https://github.com/gavinsimpson/tibs-aarhus-2026/slidedeck.html)
+* [Rendered slides](https://gavinsimpson.github.io/tibs-aarhus-2026/slidedeck.html)
 
 &copy; 2025&ndash;2026, Gavin L. Simpson CC-BY

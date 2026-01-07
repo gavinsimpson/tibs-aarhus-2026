@@ -352,7 +352,7 @@ Some progress has been made --- more happening all the time
 
 #### Slide deck
 
-{{< qrcode https://github.com/gavinsimpson/tibs-aarhus-2026/slidedeck.html width=300 height=300 >}}
+{{< qrcode https://gavinsimpson.github.io/tibs-aarhus-2026/slidedeck.html width=300 height=300 >}}
 
 :::
 
